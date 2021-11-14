@@ -38,20 +38,18 @@ print(Fore.CYAN + banner + Fore.RESET)
 async def on_message(message):
     await bot.process_commands(message)
 
-"""
-@bot.command(name="annonce")
-async def _annonce_command(ctx):
-    embed=discord.Embed(title="Comment envoyer ton code ?", description="Utilise la commande `!send` suivi de ton code\n\nDans le salon <#909457162030448680>")
-    embed.set_author(name="Explications", icon_url="https://media4.giphy.com/media/d8tN2ZVaB3ycmYypG5/giphy.gif?cid=790b7611fa0f26ba7851352c77cb99522aaef140d6e3cb5d&rid=giphy.gif&ct=g")
-    embed.set_footer(text="Bonne chance !")
-    await ctx.send(embed=embed)"""
-
-#  291284615790854145
-
 @bot.command(name="send")
 async def _send_command(ctx):
+    first = 6
+    last = len(ctx.message.content)
+    if (ctx.message.content[6:10:] == "```c"):
+        first += 4
+        last -= 3
+    elif (ctx.message.content[6:9:] == "```"):
+        first += 3
+        last -= 3
     user = await bot.fetch_user(291284615790854145)
-    await user.send("`" + str(ctx.message.author) + "`\n```" + ctx.message.content[5::] + "```")
+    await user.send("`" + str(ctx.message.author) + "`\n```c\n" + ctx.message.content[first:last:] + "```")
     await ctx.message.delete()
     await ctx.message.author.send("Envoyé !")
 
