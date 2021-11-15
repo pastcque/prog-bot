@@ -53,6 +53,13 @@ async def _send_command(ctx):
     await ctx.message.delete()
     await ctx.message.author.send("Envoyé !")
 
+@bot.command(name="notif")
+async def _notif_command(ctx):
+    member = ctx.message.author
+    role = get(ctx.message.guild.roles, name="notif")
+    await member.add_roles(role)
+    await ctx.message.delete()
+
 @bot.event
 async def on_ready():
     printTime()
